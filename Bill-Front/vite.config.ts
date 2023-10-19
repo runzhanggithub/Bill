@@ -16,7 +16,7 @@ export default defineConfig({
     }),
   ],
   optimizeDeps: {
-    include: ['particles.js']
+    include: []
   },
   server: {
     proxy: {
