@@ -22,7 +22,7 @@
 				<el-header>
 					<el-dropdown @command="handleCommand">
 						<div class="Avatar">
-							<span>{{  cookies.get('account') || '黄金交易所' }}</span>
+							<span>{{  cookies.get('account') || 'run' }}</span>
 							<el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
 						</div>
 						<template #dropdown>
@@ -105,8 +105,7 @@ const rules = reactive<FormRules<PassWordType>>({
 		{
 			validator(_rule: any, value, callback) {
 				const regx = /^(?:(?:\+|00)86)?1\d{10}$/;
-				if (regx.test(value)) {
-          noPhone.value = false;
+				if (regx.test(value)) {noPhone.value = false;
 					callback();
 				} else {
 					callback(new Error("请输入正确的手机号"));
@@ -151,8 +150,7 @@ const SubmitForm = async (formrules: FormInstance | undefined) => {
 					} else {
 						ElMessage.error(result.msg);
 					}
-				})
-				.catch((_err: any) => {});
+				}).catch((_err: any) => {});
 		} else {
 			console.log("error submit!", fields);
 		}
@@ -188,25 +186,23 @@ const handleCommand = (command: string | number | object) => {
 const getCode = (FormRules: any) => {
 	FormRules.validateField("phone_num", (bool: boolean) => {
 		if (bool) {
-      countDown.value = 60;
-
+      		countDown.value = 60;
 			proxy.$axios
-				?.get("/apis/api/1.0/user/smsCode", { phone_num: PassWordForm.value.phone_num })
+				?.get("/apis/api/1.0/user/sms_code", { phone_num: PassWordForm.value.phone_num })
 				.then((result: any) => {
 					if (result.re_code == 0) {
-            ElMessage({
+            			ElMessage({
 							message: "发送成功",
 							type: "success",
 						});
 					} else {
-            ElMessage({
+            			ElMessage({
 							message: result.msg || '发送失败',
 							type: "error",
 						});
           }
-				})
-				.catch((err: any) => {
-          ElMessage({
+				}).catch((err: any) => {
+                     	ElMessage({
 							message: err || '发送失败',
 							type: "error",
 						});

@@ -67,10 +67,10 @@ const signInRules = reactive<FormRules<any>>({
 			message: "请输入手机号",
 			trigger: "blur",
 		},
-    {
+    	{
 			validator: validatePhone,
 			trigger: "blur",
-    }
+    	}
 	],
 	phone_code: [
 		{
@@ -122,34 +122,30 @@ const getCode = (FormRules: any) => {
 		if (bool) {
       countDown.value = 60;
 			proxy.$axios
-				?.get("/apis/api/1.0/user/smsCode", { phone_num: signInData.value.phone_num })
+				?.get("/apis/api/1.0/user/sms_code", { phone_num: signInData.value.phone_num })
 				.then((result: any) => {
 					if (result.re_code == 0) {
-            ElMessage({
+            			ElMessage({
 							message: "发送成功",
 							type: "success",
 						});
 					} else {
-            ElMessage({
+           				ElMessage({
 							message: result.msg || '发送失败',
 							type: "error",
-						});
-          }
-				})
+						});}})
 				.catch((err: any) => {
-          ElMessage({
+          				ElMessage({
 							message: err || '发送失败',
 							type: "error",
 						});
 					console.log("验证码错误", err);
 				});
 
-        const Time = setInterval(() => {
-          countDown.value = countDown.value - 1;
-          if (countDown.value == 0) {
-            clearTimeout(Time);
-          }
-        }, 1000);
+        		const Time = setInterval(() => {
+          		countDown.value = countDown.value - 1;
+          		if (countDown.value == 0) {
+            	clearTimeout(Time);}}, 1000);
 		}
 	});
 };
@@ -163,6 +159,8 @@ const handleRegister = async (formEl: FormInstance | undefined) => {
 				phone_code: Number(signInData.value.phone_code),
 				password: Md5.hashStr(signInData.value.password),
 			};
+			// console.log("------------>:phone_code",Number(signInData.value.phone_code))
+
       if (confirmName.value === '注册') {
         proxy?.$axios
 				.post("/apis/api/1.0/user/register", {
@@ -196,7 +194,7 @@ const handleRegister = async (formEl: FormInstance | undefined) => {
 				.post("/apis/api/1.0/user/change_password", params)
 				.then((result: { re_code: number; msg: any }) => {
 					if (result.re_code === '0') {
-            signInData.value = {
+            			signInData.value = {
 							phone_num: "",
 							phone_code: "",
 							password: "",
@@ -206,21 +204,20 @@ const handleRegister = async (formEl: FormInstance | undefined) => {
 							message: "修改成功",
 							type: "success",
 						});
-            setTimeout(() => {
+            			setTimeout(() => {
 							emits("getActiveName", "login");
 						}, 500);
 					} else {
-            ElMessage({
+            			ElMessage({
 							message: res.msg || "修改失败",
 							type: "error",
 						});
 					}
 				})
 				.catch((_err: any) => {});
-      }
-
-		} else {
-			console.log("error handleRegister!", fields);
+			}
+		} 
+		else {console.log("error handleRegister!", fields);
 		}
 	});
 };

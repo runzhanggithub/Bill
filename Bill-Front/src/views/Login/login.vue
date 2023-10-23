@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, getCurrentInstance, defineEmits } from "vue";
+import { ref, reactive, getCurrentInstance } from "vue";
 import { FormInstance, FormRules } from 'element-plus';
 import { useRouter } from "vue-router";
 import { Md5 } from "ts-md5";
@@ -101,18 +101,15 @@ const handleLogin = async (formEl: FormInstance | undefined) => {
 							cookies.set("access_token", access_token);
 							cookies.set("access_token_exp", access_token_exp);
 							cookies.set("refresh_token", refresh_token);
-							cookies.set("account", loginData.value.phone_num || "黄金交易所");
-              setTimeout(() => {
-                ElMessage({
-                  message: res.msg || "登录成功",
-                  type: 'success',
-                });
-  							router.push("/transaction_record");
-              }, 200);
-						} else {
-							ElMessage({
-								message: res.msg || "登录失败",
-								type: "error",
+							cookies.set("account", loginData.value.phone_num || "run");
+              				setTimeout(() => {
+								ElMessage({
+									message: res.msg || "登录成功",
+									type: 'success',});router.push("/transaction_record");}, 200);} 
+						else {
+								ElMessage({
+									message: res.msg || "登录失败",
+									type: "error",
 							});
 						}
 					}

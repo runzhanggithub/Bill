@@ -19,6 +19,7 @@ export default defineConfig({
     include: []
   },
   server: {
+    port: 8080,
     proxy: {
       // 接口地址代理
       '/apis': {
